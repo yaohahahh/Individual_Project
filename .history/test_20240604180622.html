@@ -1,0 +1,36 @@
+<template>
+    <div class="university-list">
+      <university-card v-for="university in universities" :university="university" />
+    </div>
+  </template>
+  
+  <script>
+  import UniversityCard from './UniversityCard.vue';
+  
+  export default {
+    components: {
+      UniversityCard,
+    },
+    data() {
+      return {
+        universities: [],
+      };
+    },
+    mounted() {
+      fetch('/api/universities/')
+        .then(response => response.json())
+        .then(data => {
+          this.universities = data;
+        });
+    },
+  };
+  </script>
+  
+  <style scoped>
+  .university-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  </style>
+  

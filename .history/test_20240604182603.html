@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Vue test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app', //绑值到element
+            data: {
+                message: 'Hello Vue.js!'
+            }
+        })
+    </script>
+</body>
+</html>
