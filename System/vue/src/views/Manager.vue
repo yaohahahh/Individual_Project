@@ -4,7 +4,7 @@
       <div style="flex: 1">
         <div style="padding-left: 20px; display: flex; align-items: center">
           <img src="@/assets/imgs/logo.png" alt="" style="width: 40px">
-          <div style="font-weight: bold; font-size: 24px; margin-left: 5px">学生成绩管理系统</div>
+          <div style="font-weight: bold; font-size: 24px; margin-left: 5px">Sustainability Assessment System</div>
         </div>
       </div>
       <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
@@ -21,9 +21,22 @@
             :default-active="$route.path"
             :default-openeds="['/home', '2']"
         >
-          <el-menu-item index="/home">
+          <el-menu-item index="/choose">
             <el-icon><HomeFilled /></el-icon>
-            <span>系统首页</span>
+            <span>Institution Comparison</span>
+          </el-menu-item>
+          <el-menu-item index="/list">
+            <el-icon><Memo /></el-icon>
+            <span>Institution List</span>
+          </el-menu-item>
+
+          <el-menu-item index="/person">
+            <el-icon><User /></el-icon>
+            <span>Account Management</span>
+          </el-menu-item>
+          <el-menu-item index="login" @click="logout">
+            <el-icon><SwitchButton /></el-icon>
+            <span>Logout</span>
           </el-menu-item>
           <el-sub-menu index="2">
             <template #title>
@@ -35,14 +48,6 @@
               <span>课程信息</span>
             </el-menu-item>
           </el-sub-menu>
-          <el-menu-item index="/person">
-            <el-icon><User /></el-icon>
-            <span>个人资料</span>
-          </el-menu-item>
-          <el-menu-item index="login" @click="logout">
-            <el-icon><SwitchButton /></el-icon>
-            <span>退出系统</span>
-          </el-menu-item>
         </el-menu>
       </div>
 
