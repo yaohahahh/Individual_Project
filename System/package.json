@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "vue-tree-chart": "^1.2.9"
+  }
+}

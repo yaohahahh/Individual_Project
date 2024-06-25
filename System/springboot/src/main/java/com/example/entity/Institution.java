@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import java.util.List;
+
 public class Institution {
     private Integer id;
     private String name;
@@ -66,3 +68,4 @@ public class Institution {
         this.name = name;
     }
 }
+
