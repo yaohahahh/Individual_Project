@@ -15,8 +15,7 @@ const router = createRouter({
         {path:'choose', name: 'choose', component: () => import('@/views/manager/choose.vue') },
         {path: 'comparison', name: 'comparison', component: () => import('@/views/manager/comparison.vue') },
         {path:'list', name: 'list', component: () => import('@/views/manager/list.vue') },
-        {path: '/report/:id', name: 'report', component: () => import('@/views/manager/report.vue') },
-        {path:'/institution/:id', name: 'select', component: () => import('@/views/manager/select.vue') },
+        { path: '/report/:id', name: 'report', component: () => import('@/views/manager/report.vue') },
       ]
     },
     { path: '/login', name: 'login', component: () => import('@/views/Login.vue'), },
