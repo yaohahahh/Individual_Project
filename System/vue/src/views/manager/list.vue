@@ -10,6 +10,7 @@
       </el-input>
     </div>
 
+
     <div class="card" style="margin-bottom: 10px">
       <el-table stripe :data="data.tableData">
         <el-table-column label="Institution Name" prop="name">

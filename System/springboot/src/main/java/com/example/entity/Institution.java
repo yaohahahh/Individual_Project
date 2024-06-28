@@ -10,7 +10,47 @@ public class Institution {
     private Integer total_version;
     private Float score;
     private String rating;
+    private List<Category> categories;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFull_name() {
+        return full_name;
+    }
+
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    public Float getVersion() {
+        return version;
+    }
+
+    public void setVersion(Float version) {
+        this.version = version;
+    }
+
+    public Integer getTotal_version() {
+        return total_version;
+    }
+
+    public void setTotal_version(Integer total_version) {
+        this.total_version = total_version;
+    }
 
     public Float getScore() {
         return score;
@@ -28,44 +68,12 @@ public class Institution {
         this.rating = rating;
     }
 
-    public Integer getId() {
-        return id;
+    public List<Category> getCategories() {
+        return categories;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getTotal_version() {
-        return total_version;
-    }
-
-    public void setTotal_version(Integer total_version) {
-        this.total_version = total_version;
-    }
-
-    public Float getVersion() {
-        return version;
-    }
-
-    public void setVersion(Float version) {
-        this.version = version;
-    }
-
-    public String getFull_name() {
-        return full_name;
-    }
-
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }
 

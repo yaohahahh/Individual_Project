@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.entity.Category;
 import com.example.entity.Institution;
 import com.example.mapper.ListMapper;
 import com.github.pagehelper.PageHelper;
@@ -24,6 +25,10 @@ public class ListService {
 
     public Institution findById(Integer id) {
         return listMapper.selectById(id);
+    }
+
+    public List<Category> findCategoriesByInstitutionId(Integer institutionId) {
+        return listMapper.selectCategoriesByInstitutionId(institutionId);
     }
 
 
