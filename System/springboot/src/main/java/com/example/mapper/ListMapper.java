@@ -1,13 +1,7 @@
 package com.example.mapper;
 
-import com.example.entity.Category;
-import com.example.entity.Credit;
-import com.example.entity.Impact_Area;
-import com.example.entity.Institution;
-import org.apache.ibatis.annotations.Many;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.example.entity.*;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -16,7 +10,10 @@ public interface ListMapper {
     List<Institution> selectAll(Institution institution);
 
     @Select("select * from Sustainability_Data.Institution where id = #{id}")
-    Institution selectById(Integer id);
+    Institution selectById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM Sustainability_Data.Institution WHERE LOWER(name) LIKE CONCAT('%', LOWER(#{query}), '%')")
+    List<Institution> findByNameContainingIgnoreCase(@Param("query") String query);
 
     @Select("SELECT * FROM Sustainability_Data.Category WHERE institution_id = #{institutionId}")
     @Results({
@@ -32,6 +29,7 @@ public interface ListMapper {
             @Result(column = "id", property = "id"),
             @Result(column = "name", property = "name"),
             @Result(column = "point", property = "point"),
+            @Result(column = "total_point", property = "total_point"),
             @Result(column = "id", property = "credits",
                     many = @Many(select = "selectCreditsByImpactAreaId"))
     })
@@ -39,5 +37,15 @@ public interface ListMapper {
 
     @Select("SELECT * FROM Sustainability_Data.Credit WHERE impact_area_id = #{impactAreaId}")
     List<Credit> selectCreditsByImpactAreaId(Integer impactAreaId);
+
+    @Insert("insert into Sustainability_Data.Institution (name,full_name,score,rating) values (#{name},#{full_name},#{score},#{rating})")
+    void insert(Institution institution);
+
+    @Update("update Sustainability_Data.Institution set name=#{name}, full_name= #{full_name}, score=#{score},rating=#{rating} where id=#{id}")
+    void updateById(Institution institution);
+
+    //先删除impact再删category,最后删institution
+    @Delete("delete from Sustainability_Data.Institution where id = #{id}")
+    void deleteById(Integer id);
 
 }

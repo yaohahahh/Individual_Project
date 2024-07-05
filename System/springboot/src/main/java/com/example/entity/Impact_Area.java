@@ -5,10 +5,19 @@ import java.util.List;
 public class Impact_Area {
     private Integer id;
     private String name;
-    private Integer point;
+    private Float point;
+    private Float total_point;
     private List<Credit> credits;
     // Getters and Setters
 
+
+    public Float getTotal_point() {
+        return total_point;
+    }
+
+    public void setTotal_point(Float total_point) {
+        this.total_point = total_point;
+    }
 
     public Integer getId() {
         return id;
@@ -26,11 +35,11 @@ public class Impact_Area {
         this.credits = credits;
     }
 
-    public Integer getPoint() {
+    public Float getPoint() {
         return point;
     }
 
-    public void setPoint(Integer point) {
+    public void setPoint(Float point) {
         this.point = point;
     }
 

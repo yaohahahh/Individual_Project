@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.entity.Category;
+import com.example.entity.Course;
 import com.example.entity.Institution;
 import com.example.mapper.ListMapper;
 import com.github.pagehelper.PageHelper;
@@ -21,6 +22,24 @@ public class ListService {
         PageHelper.startPage(pageNum,pageSize);
         List<Institution> institutionList = listMapper.selectAll(institution);
         return PageInfo.of(institutionList);
+    }
+
+    //新增数据
+    public void add(Institution institution) {
+        listMapper.insert(institution);
+    }
+
+    public void updateById(Institution institution) {
+        listMapper.updateById(institution);
+    }
+
+    public void deleteById(Integer id) {
+
+        listMapper.deleteById(id);
+    }
+
+    public List<Institution> searchInstitutions(String query) {
+        return listMapper.findByNameContainingIgnoreCase(query);
     }
 
     public Institution findById(Integer id) {
