@@ -1,50 +1,81 @@
 <template>
-  <div>
-    <div style="margin-bottom: 20px;">
+  <div class="container">
+    <div class="search-section">
       <el-input
           placeholder="Search for Institution Name"
           v-model="searchQuery"
           clearable
           @input="filterData"
-      >
-      </el-input>
-      <div style="margin-bottom: 10px">
-        <el-button type="primary" @click="handleAdd">Add Institution</el-button>
-      </div>
+      ></el-input>
+      <el-button v-if="isAdmin" type="primary" @click="handleAdd" class="add-button">Add Institution</el-button>
     </div>
 
-    <div class="card" style="margin-bottom: 10px">
+    <div class="card">
       <el-table stripe :data="filteredData">
-        <el-table-column label="Institution Name" prop="name">
+        <el-table-column label="Institution" prop="name" width="120" sortable>
           <template #default="{ row }">
             <el-link @click="goToReport(row.id)">{{ row.name }}</el-link>
           </template>
         </el-table-column>
-        <el-table-column label="Score" prop="score"></el-table-column>
-        <el-table-column label="Rating" prop="rating"></el-table-column>
-        <el-table-column label="Operation" align="center" width="160">
+        <el-table-column label="Full Name" prop="fullName" sortable></el-table-column>
+        <el-table-column label="Score" prop="score" width="100" sortable></el-table-column>
+        <el-table-column
+            label="Rating"
+            prop="rating"
+            width="100"
+            :filters="[
+            { text: 'Gold', value: 'Gold' },
+            { text: 'Silver', value: 'Silver' },
+            { text: 'Bronze', value: 'Bronze' },
+            { text: 'Platinum', value: 'Platinum' }
+          ]"
+            :filter-method="filterTag"
+            filter-placement="bottom-end"
+        >
+          <template #default="scope">
+            <el-tag
+                :class="getTagClass(scope.row.rating)"
+                disable-transitions
+            >
+              {{ scope.row.rating }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="isAdmin" label="Operation" align="center" width="200">
           <template v-slot="scope">
-            <el-button type="primary" @click="handleEdit(scope.row)">Edit</el-button>
-            <el-button type="danger" @click="handleDelete(scope.row.id)">Delete</el-button>
+            <div class="operation-buttons">
+              <el-button type="primary" @click="handleEdit(scope.row)">Edit</el-button>
+              <el-button type="danger" @click="handleDelete(scope.row.id)">Delete</el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <div class="card">
-      <el-pagination background layout="prev, pager, next" :total="data.total"
-                     @current-change="handleCurrentChange"
-                     v-model:page-size="data.pageSize" v-model:current-page="data.pageNum"/>
+    <div class="pagination">
+      <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="data.total"
+          @current-change="handleCurrentChange"
+          v-model:page-size="data.pageSize"
+          v-model:current-page="data.pageNum"
+      />
     </div>
 
-    <el-dialog title="Institution Information" width="40%" v-model="data.formVisible" :close-on-click-modal="false" destroy-on-close>
-      <el-form :model="data.form" label-width="auto" label-position="left" style="padding-right: 50px" status-icon>
-
+    <el-dialog
+        title="Institution Information List"
+        width="40%"
+        v-model="data.formVisible"
+        :close-on-click-modal="false"
+        destroy-on-close
+    >
+      <el-form :model="data.form" :rules="rules" ref="dataForm" label-width="auto" label-position="left" status-icon>
         <el-form-item label="Name" prop="name">
           <el-input v-model="data.form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Full_Name" prop="full_name">
-          <el-input v-model="data.form.full_name" autocomplete="off" />
+        <el-form-item label="Full Name" prop="fullName">
+          <el-input v-model="data.form.fullName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="Score" prop="score">
           <el-input v-model="data.form.score" autocomplete="off" />
@@ -57,13 +88,21 @@
             <el-option label="Platinum" value="Platinum" />
           </el-select>
         </el-form-item>
-
+        <el-form-item label="STARS Link" prop="link">
+          <el-input v-model="data.form.link" autocomplete="off" />
+        </el-form-item>
+          <el-form-item>
+            <div>
+              Question about information? Please check on
+              <el-link href="https://reports.aashe.org/institutions/participants-and-reports/" target="_blank">STARS</el-link>
+            </div>
+          </el-form-item>
       </el-form>
       <template #footer>
-          <span class="dialog-footer">
-            <el-button type="primary" @click="save">Save</el-button>
-            <el-button @click="data.formVisible = false ">Cancel</el-button>
-          </span>
+        <span class="dialog-footer">
+          <el-button type="primary" @click="submitForm('dataForm')">Save</el-button>
+          <el-button @click="data.formVisible = false">Cancel</el-button>
+        </span>
       </template>
     </el-dialog>
   </div>
@@ -73,30 +112,41 @@
 import request from "@/utils/request";
 import { reactive, ref, computed, onMounted } from "vue";
 import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 
+// 响应式数据
 const data = reactive({
   name: '',
-  full_name: '',
+  fullName: '',
   score: '',
   rating: '',
+  link: '',
   total: 0,
   tableData: [],
   pageNum: 1,
   pageSize: 6,
-  formVisible: false, // 不展示新增弹窗
-  form: {
-  }
+  formVisible: false,
+  form: {}
 });
 
+// 表单验证规则
+const rules = {
+  name: [{ required: true, message: 'Please input the name', trigger: 'blur' }],
+  fullName: [{ message: 'Please input the full name', trigger: 'blur' }],
+  score: [
+    { required: true, message: 'Please input the score', trigger: 'blur' },
+    { type: 'number', max: 100, message: 'Score must be less than or equal to 100', trigger: 'blur' }
+  ],
+  rating: [{ required: true, message: 'Please select a rating', trigger: 'change' }],
+  link: [{ message: 'Please input the STARS link', trigger: 'blur' }]
+};
 
-
-// 用于搜索的输入框绑定的变量
+// 搜索输入框的引用
 const searchQuery = ref('');
 
-
-// 加载数据的函数
+// 加载数据
 const load = () => {
   request.get('/list/selectPage', {
     params: {
@@ -113,77 +163,171 @@ const load = () => {
   });
 };
 
-const goToReport = (id) => {
-  router.push({ name: 'report', params: { id } });
-};
-
-// 在组件挂载时调用以获取数据
+// 组件挂载时加载数据
 onMounted(load);
 
-// 计算属性用于过滤数据
+// 计算属性，用于过滤数据
 const filteredData = computed(() => {
   const query = searchQuery.value.toLowerCase();
-  return data.tableData.filter(item => item.name.toLowerCase().includes(query));
+  return data.tableData.filter(item => item.fullName.toLowerCase().includes(query));
 });
 
 // 搜索处理函数
 const filterData = () => {
-  // 搜索时更新 data.name，然后重新加载数据
-  data.name = searchQuery.value;
+  data.fullName = searchQuery.value;
   load();
 };
 
-// 打开新增按钮的弹窗
+// 跳转到报告页面
+const goToReport = (id) => {
+  router.push({name: 'report', params: {id}});
+};
+
+// 打开新增弹窗
 const handleAdd = () => {
-  data.form = {  }; // 清空数据并初始化 scores 对象
-  data.formVisible = true; // 打开弹窗
+  data.form = {};
+  data.formVisible = true;
 };
 
 // 编辑表单
 const handleEdit = (row) => {
-  data.form = { ...row }; // 将已有数据填充到表单中，并初始化 scores 对象
+  data.form = {...row};
   data.formVisible = true;
 };
 
 // 删除数据
 const handleDelete = (id) => {
   request.delete(`/list/delete/${id}`).then(() => {
-    load(); // 重新加载数据
-    ElMessage.success("删除成功");
+    load();
+    ElMessage.success("Delete successfully");
   }).catch(error => {
-    ElMessage.error("删除失败");
+    ElMessage.error("Delete failed");
     console.error('Error deleting data:', error);
   });
 };
 
-
-// 保存数据到后台
+// 保存数据
 const save = () => {
-  // 提交基本信息并创建新institution
   request.request({
-    //通过到底id是不是已存在来判断update/add
     url: data.form.id ? '/list/update' : '/list/add',
     method: data.form.id ? 'PUT' : 'POST',
     data: data.form
   }).then(res => {
     if (res.code === '200') {
-      load(); // 重新获取数据
-      data.formVisible = false; // 关闭弹窗
-      ElMessage.success("保存成功");
+      load();
+      data.formVisible = false;
+      ElMessage.success("Save Successfully! Please go to Report page to edit points.");
     } else {
-      ElMessage.error("Please fill all");
+      ElMessage.error("Please fill all fields");
     }
   }).catch(error => {
-    ElMessage.error("保存失败");
+    ElMessage.error("Save failed");
     console.error('Error saving data:', error);
   });
-
 };
+
+// 过滤标签
+const filterTag = (value, row) => {
+  return row.rating === value;
+};
+
+// 获取标签类型
+const getTagClass = (rating) => {
+  switch (rating) {
+    case 'Gold':
+      return 'gold-tag';
+    case 'Silver':
+      return 'silver-tag';
+    case 'Bronze':
+      return 'bronze-tag';
+    case 'Platinum':
+      return 'platinum-tag';
+    default:
+      return '';
+  }
+};
+
+const submitForm = (formName) => {
+  ref(formName).validate((valid) => {
+    if (valid) {
+      save(); // 保存数据
+    } else {
+      console.log('Validation failed');
+      return false;
+    }
+  });
+};
+
+// 判断是否是管理员
+const isAdmin = computed(() => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  return user && user.role === 'ADMIN';
+});
+
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-button {
+  margin-left: 10px;
+}
+
+.card {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .dialog-footer {
   display: flex;
   justify-content: flex-end;
+}
+
+.operation-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+/* 自定义标签颜色 */
+.gold-tag {
+  background-color: #FFFACD;
+  color: #000;
+}
+
+.silver-tag {
+  background-color: #C0C0C0;
+  color: #fff;
+}
+
+.bronze-tag {
+  background-color: #CD7F32;
+  color: #fff;
+}
+
+.platinum-tag {
+  background-color: #E5E4E2;
+  color: #000;
 }
 </style>

@@ -2,8 +2,6 @@ package com.example.controller;
 
 import com.example.common.Result;
 import com.example.entity.Category;
-import com.example.entity.Course;
-import com.example.entity.Impact_Area;
 import com.example.entity.Institution;
 import com.example.service.ListService;
 import com.github.pagehelper.PageInfo;
@@ -69,11 +67,9 @@ public class ListController {
         return Result.success();
     }
 
-    @PutMapping("/update/{id}")
-    //用RequestBody接受json数据
-    public Result update_report(@RequestBody Institution institution) {
-        //根据id判断是否更新
-        listService.updateById(institution);
+    @PutMapping("/updatePoint")
+    public Result updatePoint(@RequestBody Institution institution) {
+        listService.updatePoint(institution);
         return Result.success();
     }
 
@@ -81,8 +77,6 @@ public class ListController {
     @DeleteMapping("/delete/{id}")
     //通过传id这个参数来删除
     public Result delete(@PathVariable Integer id) {
-
-
         listService.deleteById(id);
         return Result.success();
     }

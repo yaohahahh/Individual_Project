@@ -5,11 +5,12 @@ import java.util.List;
 public class Institution {
     private Integer id;
     private String name;
-    private String full_name;
+    private String fullName;
     private Float version;
     private Integer total_version;
     private Float score;
     private String rating;
+    private String link;
     private List<Category> categories;
 
     public Integer getId() {
@@ -28,12 +29,12 @@ public class Institution {
         this.name = name;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Float getVersion() {
@@ -74,6 +75,14 @@ public class Institution {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }
 

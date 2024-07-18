@@ -7,7 +7,6 @@ public class Impact_Area {
     private String name;
     private Float point;
     private Float total_point;
-    private List<Credit> credits;
     // Getters and Setters
 
 
@@ -27,13 +26,6 @@ public class Impact_Area {
         this.id = id;
     }
 
-    public List<Credit> getCredits() {
-        return credits;
-    }
-
-    public void setCredits(List<Credit> credits) {
-        this.credits = credits;
-    }
 
     public Float getPoint() {
         return point;

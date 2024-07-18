@@ -20,7 +20,7 @@
         </el-form-item>
       </el-form>
       <div style="margin-top: 30px; text-align: center" >
-        Register Successfully! Please <a href="/login"> login here</a>.
+        Register Successfully? Please <a href="/login"> login here</a>.
       </div>
     </div>
   </div>

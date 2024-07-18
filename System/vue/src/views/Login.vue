@@ -32,9 +32,11 @@
   import {ElMessage} from "element-plus";
   import router from '@/router';
 
+
   const data=reactive({
     form: {}
   })
+
 
   //输入校验
   const rules = reactive({

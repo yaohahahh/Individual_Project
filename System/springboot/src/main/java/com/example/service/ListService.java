@@ -1,12 +1,15 @@
 package com.example.service;
 
 import com.example.entity.Category;
+
 import com.example.entity.Course;
+import com.example.entity.Impact_Area;
 import com.example.entity.Institution;
 import com.example.mapper.ListMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,8 +36,20 @@ public class ListService {
         listMapper.updateById(institution);
     }
 
-    public void deleteById(Integer id) {
+    @Transactional
+    public void updatePoint(Institution institution) {
+        for (Category category : institution.getCategories()) {
+            for (Impact_Area impact_area : category.getImpact_areas()) {
+                listMapper.updateImpactAreaPoint(impact_area.getId(), impact_area.getPoint());
+            }
+        }
+    }
 
+    public void deleteById(Integer id) {
+        for (Category category: findCategoriesByInstitutionId(id)){
+            listMapper.deleteImpactArea(category.getId());
+        }
+        listMapper.deleteCategory(id);
         listMapper.deleteById(id);
     }
 
@@ -50,6 +65,9 @@ public class ListService {
         return listMapper.selectCategoriesByInstitutionId(institutionId);
     }
 
+    public List<Impact_Area> findImpactAreasByInstitutionId(Integer categoryId) {
+        return listMapper.selectImpactAreasByCategoryId(categoryId);
+    }
 
 
 }

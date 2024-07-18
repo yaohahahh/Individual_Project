@@ -321,40 +321,162 @@ export const ILList: Credit[] = [
 
 export const BGList: Credit[] = [
     {
-        credit: '',
-        indicator: '',
-        point: 1,
+        credit: 'Building Design and Construction',
+        indicator: 'This credit recognizes institutions that have incorporated environmental features into their design and\n' +
+            'construction projects. Decisions made during the design phase, such as where to locate the building and\n' +
+            'how it is oriented, can yield significant energy savings and reduce impacts on the site. By designing and\n' +
+            'building for enhanced indoor environmental quality, institutions can ensure their buildings provide safe,\n' +
+            'healthy, and productive spaces for the campus community.',
+        point: 3,
+    },{
+        credit: 'Building Operations and Maintenance',
+        indicator: 'This credit recognizes institutions that operate and maintain their buildings in ways that protect the health\n' +
+            'of building occupants and the environment. An institution’s existing building stock is typically the largest\n' +
+            'source of campus energy consumption and greenhouse gas emissions.',
+        point: 5,
+    },{
+        credit: 'Landscape Management',
+        indicator: 'This credit recognizes institutions that manage their grounds sustainably. Sustainable landscape\n' +
+            'management integrates economic, social, and ecological considerations to meet human needs and\n' +
+            'maintain healthy ecosystems.',
+        point: 2,
+    },{
+        credit: 'Biodiversity',
+        indicator: 'This credit recognizes institutions that have a biodiversity management strategy designed to identify\n' +
+            'vulnerable ecosystems and species on campus and prevent, manage, and/or remediate damage to\n' +
+            'natural habitats and sensitive areas. Identifying and protecting the integrity of natural ecosystems can\n' +
+            'enhance the surrounding environment and improve the quality of campus and community life.',
+        point: 2,
+    },{
+        credit: 'Water Use',
+        indicator: 'This credit recognizes institutions that have reduced water use. By reducing campus water withdrawal,\n' +
+            'institutions can reduce pressures on local aquifers, streams, rivers, lakes, and aquatic wildlife.',
+        point: 6,
+    },{
+        credit: 'Rainwater Management',
+        indicator: 'This credit recognizes institutions that implement policies and programs to reduce stormwater runoff and\n' +
+            'resultant water pollution, and treat rainwater as a resource rather than as a waste product. By using low\n' +
+            'impact development practices and green infrastructure to manage rainwater, institutions can help\n' +
+            'replenish natural aquifers, reduce erosion impacts, decrease pressures on public infrastructure and\n' +
+            'minimize local water contamination.',
+        point: 2,
     },
 ];
 
 export const ECList: Credit[] = [
     {
-        credit: '',
-        indicator: '',
-        point: 1,
+        credit: 'Emissions Inventory and Disclosure',
+        indicator: 'This credit recognizes institutions that are accounting for and publicly disclosing the greenhouse gas and\n' +
+            'air pollutant emissions that result from institutional activities.',
+        point: 3,
+    },{
+        credit: 'Greenhouse Gas Emissions',
+        indicator: 'This credit recognizes institutions that have reduced their adjusted net Scope 1 and Scope 2 greenhouse\n' +
+            'gas (GHG) emissions.',
+        point: 8,
+    },{
+        credit: 'Building Energy Efficiency',
+        indicator: 'This credit recognizes institutions that are improving the energy efficiency of their buildings.',
+        point: 6,
+    },{
+        credit: 'Clean and Renewable Energy',
+        indicator: 'This credit recognizes institutions that support the development and use of energy from clean and\n' +
+            'renewable sources.',
+        point: 4,
     },
 ];
 
 export const FDList: Credit[] = [
     {
-        credit: '',
-        indicator: '',
-        point: 1,
+        credit: 'Food and Beverage Purchasing',
+        indicator: 'This credit recognizes institutions that are supporting sustainable food systems through their food and\n' +
+            'beverage purchases. Institutions can do this by prioritizing the purchase of plant-based and sustainably or\n' +
+            'ethically produced food and beverage items. These actions reduce the social and environmental impacts\n' +
+            'of food production and help foster food security, improved conditions for farm workers, healthier soils and\n' +
+            'waterways, and secure livelihoods for farmers.',
+        point: 6,
+    },{
+        credit: 'Sustainable Dining',
+        indicator: 'This credit recognizes institutions that are supporting sustainable food systems and minimizing the\n' +
+            'impacts of their dining service operations. An institution can operate its dining services sustainably by\n' +
+            'preventing food waste and diverting food materials from the waste stream, by making low impact dining\n' +
+            'options available, and by engaging service providers, customers and the broader community around\n' +
+            'sustainability issues.',
+        point: 2,
     },
 ];
 
 export const PWList: Credit[] = [
     {
-        credit: '',
-        indicator: '',
+        credit: 'Sustainable Procurement',
+        indicator: 'This credit recognizes institutions that apply sustainability criteria when making procurement decisions.\n' +
+            'Each purchasing decision an institution makes represents an opportunity to choose environmentally and\n' +
+            'socially preferable products and services, to support companies with strong commitments to\n' +
+            'sustainability, and to support just and resilient local economies.',
+        point: 3,
+    },{
+        credit: 'Electronics Purchasing',
+        indicator: 'This credit recognizes institutions that are supporting markets for environmentally preferable computers\n' +
+            'and other electronic products.',
+        point: 1,
+    },{
+        credit: 'Cleaning and Janitorial Purchasing',
+        indicator: 'This credit recognizes institutions that purchase green cleaning and janitorial products. By switching to\n' +
+            'non-toxic cleaning products, institutions reduce exposure impacts for all building occupants and the\n' +
+            'environment, thereby promoting clean and healthy work, living, and learning spaces.',
+        point: 1,
+    },{
+        credit: 'Office Paper Purchasing',
+        indicator: 'This credit recognizes institutions that purchase recycled-content and third party certified office paper. By\n' +
+            'supporting markets for environmentally preferable paper, institutions contribute to conservation of water,\n' +
+            'energy, and virgin forest.',
+        point: 1,
+    },{
+        credit: 'Waste Minimization and Diversion',
+        indicator: 'This credit recognizes institutions that are minimizing their production of waste, diverting materials from\n' +
+            'landfills and incinerators, and conserving resources by recycling and composting.',
+        point: 8,
+    },{
+        credit: 'Construction and Demolition Waste Diversion',
+        indicator: 'This credit recognizes institutions that have diverted construction and demolition (C&D) wastes.\n' +
+            'Construction and demolition is a significant source of waste that falls outside of an institution’s standard\n' +
+            'waste stream and may be handled by a separate contractor or waste hauler.',
+        point: 1,
+    },{
+        credit: 'Hazardous Waste Management',
+        indicator: 'This credit recognizes institutions that seek to minimize and safely dispose of all hazardous, universal,\n' +
+            'and non-regulated chemical waste and that have electronic waste (e-waste) recycling and/or reuse\n' +
+            'programs. Hazardous waste typically contains toxic components such as lead and mercury that can\n' +
+            'contaminate soil and groundwater and have detrimental human health impacts if handled improperly. At\n' +
+            'the same time, e-waste contains components that can be recycled.',
         point: 1,
     },
 ];
 
 export const TransportationList: Credit[] = [
     {
-        credit: '',
-        indicator: '',
+        credit: 'Campus Fleet',
+        indicator: 'This credit recognizes institutions that use cleaner fuels and fuel-efficient vehicles. Institutions can help\n' +
+            'shape markets by creating demand for and enhancing the visibility of more efficient vehicles and cleaner\n' +
+            'fuels that reduce greenhouse gas emissions and improve local air quality. While other credits address the\n' +
+            'climate impacts of fuel usage and the replacement of motorized vehicles with non-motorized vehicles, this\n' +
+            'credit recognizes the purchase and use of fuel efficient and alternative fueled vehicles.',
+        point: 1,
+    },{
+        credit: 'Commute Modal Split',
+        indicator: 'This credit recognizes institutions where students and employees use alternatives to conventional\n' +
+            'single-occupancy vehicles to travel to and from the institution. Commute modal split is a common\n' +
+            'measure used to evaluate the sustainability performance of a transportation system. Using more\n' +
+            'sustainable modes of transport helps reduce local air pollution, traffic congestion, and GHG emissions, as\n' +
+            'well as helping to facilitate more sustainable land use patterns. Walking and cycling offer health benefits\n' +
+            'as well.',
+        point: 5,
+    },{
+        credit: 'Support for Sustainable Transportation',
+        indicator: 'This credit recognizes institutions that support active transportation and more sustainable commuting\n' +
+            'options for its students and employees in ways that may not be reflected in its commute modal split.\n' +
+            'Encouraging more sustainable modes of transportation and offering programs to reduce commuting helps\n' +
+            'decrease local air pollution and greenhouse gas emissions.',
         point: 1,
     },
 ];

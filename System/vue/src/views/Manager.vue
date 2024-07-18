@@ -7,47 +7,37 @@
           <div style="font-weight: bold; font-size: 24px; margin-left: 5px">Sustainability Assessment System</div>
         </div>
       </div>
-      <div style="width: fit-content; padding-right: 10px; display: flex; align-items: center;">
-        <img src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" alt="" style="width: 40px; height: 40px">
-        <span style="margin-left: 5px">管理员</span>
-      </div>
     </div>
 
     <div style="display: flex">
-      <div style="width: 200px; border-right: 1px solid #ddd; min-height: calc(100vh - 60px)">
-        <el-menu
-            router
-            style="border: none"
-            :default-active="$route.path"
-            :default-openeds="['/home', '2']"
+      <div class="header-menu">
+        <el-menu router mode="horizontal"
+                 :default-active="$route.path"
+                 :default-openeds="['/home', '2']"
+                 background-color="#ffffff"
+                 text-color="#333"
+                 active-text-color="#11A983"
         >
-          <el-menu-item index="/choose">
+          <el-menu-item index="/home">
             <el-icon><HomeFilled /></el-icon>
-            <span>Institution Comparison</span>
+            <span>Home</span>
+          </el-menu-item>
+          <el-menu-item index="/choose">
+            <el-icon><PieChart /></el-icon>
+            <span>Comparison</span>
           </el-menu-item>
           <el-menu-item index="/list">
             <el-icon><Memo /></el-icon>
-            <span>Institution List</span>
+            <span>Report</span>
           </el-menu-item>
-
-          <el-menu-item index="/person">
+          <el-menu-item v-if="!isLoggedIn" index="/login">
             <el-icon><User /></el-icon>
-            <span>Account Management</span>
+            <span>Login</span>
           </el-menu-item>
-          <el-menu-item index="login" @click="logout">
-            <el-icon><SwitchButton /></el-icon>
-            <span>Logout</span>
+          <el-menu-item v-if="isLoggedIn" index="login" @click="logout">
+            <el-icon><User /></el-icon>
+            <span>LogOut</span>
           </el-menu-item>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><Memo /></el-icon>
-              <span>课程管理</span>
-            </template>
-            <el-menu-item index="/course">
-              <el-icon><Document /></el-icon>
-              <span>课程信息</span>
-            </el-menu-item>
-          </el-sub-menu>
         </el-menu>
       </div>
 
@@ -55,18 +45,29 @@
         <router-view />
       </div>
     </div>
-
   </div>
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
-const $route = useRoute()
-console.log($route.path)
+import { reactive, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+
+const $route = useRoute();
+const router = useRouter();
+
+const state = reactive({
+  user: JSON.parse(localStorage.getItem('user'))
+});
+
+const isLoggedIn = computed(() => !!state.user);
+const isAdmin = computed(() => state.user?.role === 'ADMIN');
 
 const logout = () => {
-  localStorage.removeItem('student-user')
-}
+  localStorage.removeItem('user');
+  state.user = null;
+  router.push('/home');
+};
 </script>
 
 <style scoped>
@@ -76,7 +77,17 @@ const logout = () => {
 .el-menu-item:hover {
   color: #11A983;
 }
-:deep(th)  {
-  color: #333;
+.header-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 300px; /* 设置菜单栏的宽度 */
+  height: 60px; /* 设置菜单栏的高度 */
+  display: flex;
+  justify-content: flex-end; /* 让菜单右对齐 */
+  align-items: center; /* 垂直居中对齐 */
+  background-color: #f0f0f0; /* 设置菜单栏的背景颜色 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 可选：添加阴影效果 */
+  z-index: 1000; /* 设置一个较高的 z-index 以确保菜单显示在其他内容之上 */
 }
 </style>

@@ -1,6 +1,65 @@
 <template>
   <div>
-    <el-row :gutter="10">
+    <el-breadcrumb :separator-icon="ArrowRight" style="margin-bottom: 20px;">
+      <el-breadcrumb-item :to="{ path: '/' }">Homepage</el-breadcrumb-item>
+      <el-breadcrumb-item>
+        <a href="/choose">Choose Institution</a>
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>Institution Comparison</el-breadcrumb-item>
+    </el-breadcrumb>
+
+    <el-divider content-position="center">Comparison Result</el-divider>
+    <el-row :gutter="20" class="comparison-section">
+      <el-col :span="14">
+        <div class="card radar-card">
+          <div class="echarts" id="radarChart"></div>
+        </div>
+      </el-col>
+      <el-col :span="10">
+        <div class="vertical-institutions">
+          <el-col
+              v-for="institution in institutions"
+              :key="institution.id"
+              class="mb-4"
+          >
+            <div class="card institution-card" :class="{ 'highest-score': institution.isHighest }">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="name-rating">
+                  <h2>{{ institution.name }} <el-tag type="info">{{ institution.rating }}</el-tag></h2>
+                  <div class="full-name">{{ institution.fullName }}</div>
+                </div>
+                <el-progress type="circle" :percentage="institution.score">
+                  <template #default="{ percentage }">
+                    <span class="percentage-value">{{ percentage }}
+                      <div v-if="institution.isHighest"><el-tag type="success">Highest</el-tag></div>
+                    </span>
+                  </template>
+                </el-progress>
+              </div>
+            </div>
+          </el-col>
+        </div>
+      </el-col>
+    </el-row>
+
+    <div class="card" >
+      <div class="block text-center" style="margin-left: 20px" >
+        <el-carousel indicator-position="none" autoplay="false">
+          <el-carousel-item>
+            <div class="echarts" id="StackedLineChartSociety" style="height: 100%; width: 100%;"></div>
+          </el-carousel-item>
+          <el-carousel-item>
+            <div class="echarts" id="StackedLineChartEconomy" style="height: 100%; width: 100%;"></div>
+          </el-carousel-item>
+          <el-carousel-item>
+            <div class="echarts" id="StackedLineChartEnvironment" style="height: 100%; width: 100%;"></div>
+          </el-carousel-item>
+        </el-carousel>
+      </div>
+    </div>
+
+    <el-divider content-position="center">Detail Analysis</el-divider>
+    <el-row :gutter="20" class="detail-analysis">
       <el-col
           v-for="institution in institutions"
           :key="institution.id"
@@ -9,77 +68,39 @@
           :md="institutionColSpan"
           :lg="institutionColSpan"
           :xl="institutionColSpan"
+          class="mb-4"
       >
-        <div class="card" :class="{ 'highest-score': institution.isHighest }" style="margin-bottom: 10px">
-          <el-progress type="circle" :percentage="institution.score"></el-progress>
-          <div>{{ institution.name }}</div>
-          <img :src="institution.image" alt="Institution Image" />
-          <el-divider></el-divider>
-          <el-descriptions direction="vertical" :column="4" :size="size" border>
-            <el-descriptions-item label="Rating">
-              <el-tag type="info">{{ institution.rating }}</el-tag>
-            </el-descriptions-item>
-            <el-descriptions-item label="Score">{{ institution.score }}</el-descriptions-item>
-            <el-descriptions-item label="Submitted Date">{{ institution.submitted_date }}</el-descriptions-item>
-          </el-descriptions>
-        </div>
-        <el-divider content-position="center">Radar</el-divider>
-        <div class="card" style="margin-bottom: 10px">
-          雷达图 总分+3个大类+5个小类 9个指标
-          <div class="block text-center" m="t-4">
-            <span class="demonstration">右边显示表格 总分+大类4个块就行</span>
-            <el-carousel trigger="click" height="150px">
-              <el-carousel-item v-for="item in 4" :key="item">
-                <h3 class="small justify-center" text="2xl">{{ item }}</h3>
-              </el-carousel-item>
-            </el-carousel>
-          </div>
-        </div>
-        <el-divider></el-divider>
-        <div v-for="category in categories" :key="category" class="category-section">
-          <h3>{{ category }}</h3>
-          <div class="card" style="margin-bottom: 10px">
-            <h4>Curriculum
-              <el-progress :text-inside="true" :stroke-width="26" :percentage="70"></el-progress>
-              每个小类有小卡片展示各自的名字和指标
-            </h4>
-            <el-col :span="11">
-              <el-card shadow="hover">
-                表格里的数据做成小卡片
-                credit 小圆圈写point
-                描述indicator 下面的进度条是分值/小类总分
-                <el-progress :percentage="50"></el-progress>
-              </el-card>
-            </el-col>
-          </div>
-        </div>
-
-
-
-        <div class="demo-collapse">
-          <el-collapse v-model="activeNames" @change="handleChange">
+        <div v-for="type in ['Society', 'Economy', 'Environment']" :key="type">
+          <h3>{{ type }}</h3>
+          <div class="card" style="margin-bottom: 20px;">
             <template v-for="category in institution.categories" :key="category.id">
-              <div>
-                <el-collapse-item :title="category.type" :name="category.type">
-                  <template v-for="impact_area in category.impact_areas" :key="impact_area.id">
-                    <el-collapse-item :title="impact_area.name" :name="impact_area.id">
-                      <el-table :data="impact_area.list" stripe style="width: 100%">
-                        <el-table-column prop="credit" label="Credit" width="160" />
-                        <el-table-column prop="indicator" label="Indicator" />
-                        <el-table-column prop="point" label="Point" width="60" />
-                      </el-table>
-                    </el-collapse-item>
-                  </template>
-                </el-collapse-item>
+              <div v-if="category.type === type">
+                <h4>{{ category.name }}</h4>
+                <template v-for="impact_area in category.impact_areas" :key="impact_area.id">
+                  <el-col :data="impact_area.list" class="mb-4">
+                    <el-card shadow="hover">
+                      {{ impact_area.name }} {{ impact_area.point }}
+                      <el-progress :percentage="((impact_area.point / impact_area.total_point) * 100).toFixed(2)">
+                        <span>{{ impact_area.total_point }}</span>
+                      </el-progress>
+                      <el-collapse v-model="activeNames" @change="handleChange">
+                        <el-collapse-item title="Credit Indicators table" :name="impact_area.name">
+                          <el-table :data="getImpactAreaList(impact_area.name)" stripe style="width: 100%;">
+                            <el-table-column prop="credit" label="Credit" width="160" />
+                            <el-table-column prop="indicator" label="Indicator" />
+                            <el-table-column prop="point" label="Point" width="80" sortable />
+                          </el-table>
+                        </el-collapse-item>
+                      </el-collapse>
+                    </el-card>
+                  </el-col>
+                </template>
               </div>
             </template>
-          </el-collapse>
+          </div>
         </div>
-
-
       </el-col>
     </el-row>
-
   </div>
 </template>
 
@@ -87,13 +108,33 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import request from '@/utils/request'; // 确保导入你的请求工具
+import * as echarts from "echarts";
+import {
+  BGList,
+  CampusList,
+  CPList,
+  CurriculumList, ECList, FDList,
+  ILList,
+  InvestmentList,
+  PublicList, PWList,
+  ResearchList,
+  SEList, TransportationList,
+  WWList
+} from '../../data';
+import {ArrowRight} from "@element-plus/icons-vue";
 
 export default {
   name: 'Comparison',
+  computed: {
+    ArrowRight() {
+      return ArrowRight
+    }
+  },
   setup() {
     const route = useRoute();
     const institutions = ref([]);
-    const categories = ref(['Society']); // 根据需要调整类别
+
+    const categories = ref(['Academics', 'Engagement', 'Operations','Planning & Administration', 'Innovation & Leadership']);
 
     const fetchInstitutionData = async (id) => {
       try {
@@ -111,11 +152,13 @@ export default {
       const results = await Promise.all(promises);
       institutions.value = results.filter(result => result !== null);
 
-      // 找到得分最高的机构
       let highestScore = Math.max(...institutions.value.map(inst => inst.score));
       institutions.value.forEach(inst => {
         inst.isHighest = inst.score === highestScore;
       });
+
+      initRadarChart();
+      initStackedLineChart();
     };
 
     const institutionColSpan = computed(() => {
@@ -125,18 +168,269 @@ export default {
       return 8;
     });
 
-    onMounted(loadInstitutions);
+    const calculateCategoryScores = (categories) => {
+      return categories.map(category => {
+        const totalPoints = category.impact_areas.reduce((sum, area) => sum + area.point, 0);
+        return Number(totalPoints.toPrecision(10)); // 确保精度
+      });
+    };
+
+    const initRadarChart = ( ) => {
+      const chartDom = document.getElementById('radarChart');
+      if (!chartDom) {
+        console.error("Radar chart DOM element not found");
+        return;
+      }
+      const myChart = echarts.init(chartDom);
+
+      const seriesData = institutions.value.map(inst => {
+        const categoryScores = calculateCategoryScores(inst.categories);
+        return {
+          value: [inst.score, ...categoryScores],
+          name: inst.name,
+          label: {
+            show: true,
+            formatter: function (params) {
+              return params.value;
+            }
+          },
+          areaStyle: inst.isHighest ? {
+            color: new echarts.graphic.RadialGradient(0.1, 0.6, 1, [
+              { color: 'rgba(255, 145, 124, 0.1)', offset: 0 },
+              { color: 'rgba(255, 145, 124, 0.9)', offset: 1 }
+            ])
+          } : undefined
+        };
+      });
+
+      const option = {
+        color: ['#67F9D8', '#FFE434', '#FF917C'],
+        title: {
+          text: ''
+        },
+        legend: {},
+        radar: {
+          indicator: [
+            { text: 'TotalScore', max: 100 },
+            { text: 'Academics', max: 58 },
+            { text: 'Engagement', max: 41 },
+            { text: 'Operations', max: 71 },
+            { text: 'Planning & Administration', max: 108 },
+            { text: 'Innovation & Leadership', max: 4 }
+          ],
+          radius: 120,
+          axisLine: {
+            lineStyle: {
+              color: 'rgba(211, 253, 250, 0.8)'
+            }
+          },
+          splitLine: {
+            lineStyle: {
+              color: 'rgba(211, 253, 250, 0.8)'
+            }
+          },
+          axisName: {
+            color: '#fff',
+            backgroundColor: '#666',
+            borderRadius: 3,
+            padding: [3, 5]
+          }
+        },
+        series: [
+          {
+            type: 'radar',
+            data: seriesData
+          }
+        ]
+      };
+
+      myChart.setOption(option);
+    };
+
+    const extractImpactAreas = (type) => {
+      const areas = [];
+      institutions.value.forEach(inst => {
+        inst.categories.forEach(category => {
+          if (category.type === type) {
+            category.impact_areas.forEach(area => {
+              if (!areas.find(a => a.name === area.name)) {
+                areas.push({
+                  name: area.name,
+                  total_point: area.total_point
+                });
+              }
+            });
+          }
+        });
+      });
+      return areas;
+    };
+
+    const initStackedLineChart = (type, chartId) => {
+      const chartDom = document.getElementById(chartId);
+      if (!chartDom) {
+        console.error(`Stacked Line chart DOM element ${chartId} not found`);
+        return;
+      }
+      const myChart = echarts.init(chartDom);
+
+      const impactAreas = extractImpactAreas(type);
+      const xAxisData = impactAreas.map(area => area.name);
+      const yAxisMax = Math.max(...impactAreas.map(area => area.total_point));
+
+      const seriesData = institutions.value.map(inst => {
+        const points = xAxisData.map(name => {
+          let point = 0;
+          inst.categories.forEach(category => {
+            if (category.type === type) {
+              category.impact_areas.forEach(area => {
+                if (area.name === name) {
+                  point = area.point;
+                }
+              });
+            }
+          });
+          return point;
+        });
+
+        return {
+          name: inst.name,
+          type: 'line',
+          data: points
+        };
+      });
+
+      const option = {
+        title: {
+          text: `${type}`
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: institutions.value.map(inst => inst.name)
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: xAxisData
+        },
+        yAxis: {
+          type: 'value',
+          max: yAxisMax
+        },
+        series: seriesData
+      };
+
+      myChart.setOption(option);
+    };
+
+    const initCharts = () => {
+      initStackedLineChart('Society', 'StackedLineChartSociety');
+      initStackedLineChart('Economy', 'StackedLineChartEconomy');
+      initStackedLineChart('Environment', 'StackedLineChartEnvironment');
+    };
+
+    onMounted(() => {
+      loadInstitutions().then(() => {
+        initCharts();
+      });
+    });
+
+    const getImpactAreaList = (impactAreaName) => {
+      switch (impactAreaName) {
+        case 'Curriculum':
+          return CurriculumList;
+        case 'Research':
+          return ResearchList;
+        case 'Campus Engagement':
+          return CampusList;
+        case 'Public Engagement':
+          return PublicList;
+        case 'Coordination & Planning':
+          return CPList;
+        case 'Investment':
+          return InvestmentList;
+        case 'Social Equity':
+          return SEList;
+        case 'Wellbeing & Work':
+          return WWList;
+        case 'Innovation & Leadership':
+          return ILList;
+        case 'Buildings & Grounds':
+          return BGList;
+        case 'Energy & Climate':
+          return ECList;
+        case 'Food & Dining':
+          return FDList;
+        case 'Procurement & Waste':
+          return PWList;
+        case 'Transportation':
+          return TransportationList;
+        default:
+          return [];
+      }
+    };
+
+    const handleChange = (val) => {
+      console.log(val);
+    };
 
     return {
+      getImpactAreaList,
       institutions,
       categories,
       institutionColSpan,
+      handleChange
     };
   }
 };
+
+
 </script>
 
 <style scoped>
+
+.comparison-section {
+  margin-bottom: 40px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.radar-card {
+  height: 400px;
+}
+
+.vertical-institutions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.echarts {
+  min-height: 350px;
+}
+
+.percentage-value {
+  font-size: 16px;
+}
+
 .el-carousel__item h3 {
   color: #475669;
   opacity: 0.75;
@@ -145,19 +439,37 @@ export default {
   text-align: center;
 }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
-
-.category-section {
-  margin-bottom: 20px;
-}
-
 .highest-score {
-  border: 2px solid green;
+  border: 2px solid #dcede9;
+  background-color: #f0f9f8;
+}
+
+.mb-4 {
+  margin-bottom: 20px !important;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.carousel-card {
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+.detail-analysis {
+  margin-top: 20px;
 }
 </style>

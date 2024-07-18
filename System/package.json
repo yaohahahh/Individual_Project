@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "echarts": "^5.5.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
+    "vue-echarts": "^6.7.3",
     "vue-tree-chart": "^1.2.9"
   }
 }

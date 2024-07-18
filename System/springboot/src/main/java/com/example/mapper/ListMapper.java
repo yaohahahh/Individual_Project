@@ -12,7 +12,7 @@ public interface ListMapper {
     @Select("select * from Sustainability_Data.Institution where id = #{id}")
     Institution selectById(@Param("id") Integer id);
 
-    @Select("SELECT * FROM Sustainability_Data.Institution WHERE LOWER(name) LIKE CONCAT('%', LOWER(#{query}), '%')")
+    @Select("SELECT * FROM Sustainability_Data.Institution WHERE LOWER(name) LIKE CONCAT('%', LOWER(#{query}), '%') OR LOWER(fullName) LIKE CONCAT('%', LOWER(#{query}), '%')")
     List<Institution> findByNameContainingIgnoreCase(@Param("query") String query);
 
     @Select("SELECT * FROM Sustainability_Data.Category WHERE institution_id = #{institutionId}")
@@ -29,22 +29,25 @@ public interface ListMapper {
             @Result(column = "id", property = "id"),
             @Result(column = "name", property = "name"),
             @Result(column = "point", property = "point"),
-            @Result(column = "total_point", property = "total_point"),
-            @Result(column = "id", property = "credits",
-                    many = @Many(select = "selectCreditsByImpactAreaId"))
+            @Result(column = "total_point", property = "total_point")
     })
     List<Impact_Area> selectImpactAreasByCategoryId(Integer categoryId);
 
-    @Select("SELECT * FROM Sustainability_Data.Credit WHERE impact_area_id = #{impactAreaId}")
-    List<Credit> selectCreditsByImpactAreaId(Integer impactAreaId);
 
-    @Insert("insert into Sustainability_Data.Institution (name,full_name,score,rating) values (#{name},#{full_name},#{score},#{rating})")
+    @Insert("insert into Sustainability_Data.Institution (name,fullName,score,rating,link) values (#{name},#{fullName},#{score},#{rating},#{link})")
     void insert(Institution institution);
 
-    @Update("update Sustainability_Data.Institution set name=#{name}, full_name= #{full_name}, score=#{score},rating=#{rating} where id=#{id}")
+    @Update("update Sustainability_Data.Institution set name=#{name}, fullName= #{fullName}, score=#{score},rating=#{rating}, link=#{link} where id=#{id}")
     void updateById(Institution institution);
 
+    @Update("update Sustainability_Data.Impact_Area set point=#{point} where id=#{id}")
+    void updateImpactAreaPoint(@Param("id") Integer id, @Param("point") Float point);
+
     //先删除impact再删category,最后删institution
+    @Delete("delete from Sustainability_Data.Impact_Area where category_id = #{id}")
+    void deleteImpactArea(Integer id);
+    @Delete("delete from Sustainability_Data.Category where institution_id = #{id}")
+    void deleteCategory(Integer id);
     @Delete("delete from Sustainability_Data.Institution where id = #{id}")
     void deleteById(Integer id);
 

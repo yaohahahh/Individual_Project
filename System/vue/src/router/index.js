@@ -16,6 +16,7 @@ const router = createRouter({
         { path: 'comparison', name: 'comparison', component: () => import('@/views/manager/comparison.vue') },
         { path:'list', name: 'list', component: () => import('@/views/manager/list.vue') },
         { path: '/report/:id', name: 'report', component: () => import('@/views/manager/report.vue') },
+        { path: '/generate/:id', name: 'generate', component: () => import('@/views/manager/generate.vue') },
       ]
     },
     { path: '/login', name: 'login', component: () => import('@/views/Login.vue'), },

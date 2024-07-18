@@ -41,7 +41,6 @@ public class WebController {
         } else {
             return Result.error(" Wrong Role!");
         }
-
         return Result.success(dbAccount);
     }
 
