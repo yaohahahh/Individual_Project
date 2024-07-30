@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.entity.Category;
 
-import com.example.entity.Course;
 import com.example.entity.Impact_Area;
 import com.example.entity.Institution;
 import com.example.mapper.ListMapper;
@@ -19,12 +18,8 @@ public class ListService {
     @Resource
     private ListMapper listMapper;
 
-    //total是查询的总数,list是数据列表
-    //pageNum是当前页码,pageSize是每页个数
-    public PageInfo<Institution> selectPage(int pageNum, int pageSize, Institution institution){
-        PageHelper.startPage(pageNum,pageSize);
-        List<Institution> institutionList = listMapper.selectAll(institution);
-        return PageInfo.of(institutionList);
+    public List<Institution> selectAll(Institution institution){
+        return listMapper.selectAll(institution);
     }
 
     //新增数据

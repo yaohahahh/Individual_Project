@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <el-breadcrumb :separator-icon="ArrowRight" style="margin-bottom: 20px;">
       <el-breadcrumb-item :to="{ path: '/' }">Homepage</el-breadcrumb-item>
       <el-breadcrumb-item>

@@ -2,12 +2,10 @@ package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.example.entity.Account;
-import com.example.entity.Student;
 import com.example.exception.CustomException;
 import com.example.mapper.AdminMapper;
 import org.springframework.stereotype.Service;
 import com.example.entity.Admin;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 

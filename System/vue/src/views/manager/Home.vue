@@ -5,44 +5,34 @@
       <div class="banner-desc">
         <div>Hi, <span>{{ user.name }}</span> Welcome to </div>
         <h1>Sustainability Assessment System</h1>
-        <p>Introduction</p>
+        <h3>This platform is designed to help higher education institutions assess and enhance their sustainability performance. </h3>
+        <p>Use the tools to promote sustainable practices and drive positive change within your institution.</p>
+        <div v-if="isAdmin">  As an administrator, you have full access to all features, enabling you to manage data, analyze sustainability metrics, and generate comprehensive reports.</div>
       </div>
     </div>
       </div>
       <div class="card">
     <div class="cards" >
-      <div class="card-item" style="width: 350px; height: 300px;" @click="goToComparison">
+      <div class="card-item" style="width: 450px; height: auto;" @click="goToComparison">
         <div class="card-content">
           <h3>Comparison</h3>
-          <p>Introduction</p>
+          <h5> Identify strengths, weaknesses, and opportunities for improvement in sustainability practices of your institution.</h5>
+          <p> Visualizing key metrics across environmental, social, and economic dimensions. </p>
+          <p> Make informed decisions to foster a more sustainable future for higher education!</p>
         </div>
       </div>
-      <div class="card-item" style="width: 350px; height: 300px;" @click="goToReport">
+      <div class="card-item" style="width: 450px; height: auto;" @click="goToReport">
         <div class="card-content">
-          <el-icon :size="50" >
-            <Check />
-          </el-icon>
           <h3>Report</h3>
-          <p>Introduction</p>
-          <p v-if="isAdmin"> admin的特殊功能</p>
+          <h5>Generate detailed sustainability reports for your institution. </h5>
+          <p>Include comprehensive analyses and visual representations of your sustainability data, covering various dimensions and indicators. </p>
+          <p> Utilize this feature to document achievements and to highlight areas for further improvement. </p>
+
         </div>
       </div>
-
     </div>
 
         </div>
-    <div class="card" v-if="!isLoggedIn">
-      <div class="card-item" @click="goToLogin">
-        <div class="card-content">
-          <el-icon :size="24" >
-            <Check />
-          </el-icon>
-          <h3>Login / Register</h3>
-          <p>Introduction</p>
-        </div>
-
-      </div>
-    </div>
 
     <div class="card">
     <img src="@/assets/imgs/theme-index-green.png" alt="banner" class="mobile-banner">
@@ -72,7 +62,7 @@ const goToLogin = () => {
 };
 
 
-const isLoggedIn = computed(() => !user);
+
 const isAdmin = computed(() => user?.role === 'ADMIN');
 
 </script>

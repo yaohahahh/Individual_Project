@@ -12,7 +12,7 @@
         <el-form-item prop="role">
           <el-select style="width: 100%" v-model="data.form.role" placeholder="Please select a role">
             <el-option value="ADMIN" label="Admin" ></el-option>
-            <el-option value="STUDENT" label="Student" ></el-option>
+            <el-option value="USER" label="User" ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -81,8 +81,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url("@/assets/imgs/login-background.jpg");
-  background-size: cover;
+  background-image: url("@/assets/imgs/theme-index-green.png");
+  background-size: contain;
 }
 .login-box{
   background-color: #ffffff;

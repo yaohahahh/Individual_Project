@@ -215,9 +215,9 @@ const save = () => {
       .then(res => {
         load(); // 重新获取数据
         data.formVisible = false; // 关闭弹窗
-        ElMessage.success("保存成功");
+        ElMessage.success("Save Successfully!");
       }).catch(error => {
-    ElMessage.error("保存失败");
+    ElMessage.error("Save Failed!");
     console.error('Error saving data:', error);
   });
 };

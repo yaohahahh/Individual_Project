@@ -1,6 +1,6 @@
 package com.example.entity;
 
-public class Student extends Account {
+public class User extends Account {
     private String email;
     private String sex;
     private String avatar;

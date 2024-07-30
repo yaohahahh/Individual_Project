@@ -29,25 +29,26 @@
       <el-col :span="8" v-for="type in reportDimensions" :key="type.name">
         <el-card class="radar-card">
           <h3>{{ type.name }}</h3>
-          <div class="circle green">
-            <span>{{ countImpactAreas(type, 'high') }}</span>
-          </div>
-          <div class="circle yellow">
-            <span>{{ countImpactAreas(type, 'medium') }}</span>
-          </div>
-          <div class="circle red">
-            <span>{{ countImpactAreas(type, 'low') }}</span>
+          <div class="circle-container" style=" display: flex; justify-content: space-around; align-items: center;">
+            <div class="circle green">
+              <span>{{ countImpactAreas(type, 'high') }}</span>
+            </div>
+            <div class="circle yellow">
+              <span>{{ countImpactAreas(type, 'medium') }}</span>
+            </div>
+            <div class="circle red">
+              <span>{{ countImpactAreas(type, 'low') }}</span>
+            </div>
           </div>
 
-
-          <template #footer>
+<!--          <template #footer>
             <el-button type="text" @click="navigateToHighestScoreReport(type.name)">
               Go to highest score report
               <h4>Highest Score in {{ type.name }}</h4>
               <p>View report of institution with highest score</p>
               <p> v-if="isHighestScoreInstitution(type)"本机构做得最好</p>
             </el-button>
-          </template>
+          </template>-->
         </el-card>
       </el-col>
     </el-row>
@@ -203,8 +204,6 @@ const generateReport = () => {
           });
         });
 
-
-
         ElMessage.success("Report generated successfully");
       })
       .catch((error) => {
@@ -254,6 +253,7 @@ const countImpactAreas = (type, level) => {
   return type[level].length;
 };
 
+/*
 const navigateToHighestScoreReport = (dimensionName) => {
   const category = data.categories.find(category => category.type === dimensionName);
   if (category) {
@@ -262,7 +262,7 @@ const navigateToHighestScoreReport = (dimensionName) => {
       router.push(`/institution/report/${highestScoreInstitution.institutionId}`);
     }
   }
-};
+};*/
 
 generateReport();
 

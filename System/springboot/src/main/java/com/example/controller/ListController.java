@@ -18,12 +18,9 @@ public class ListController {
     @Resource
     private ListService listService;
 
-    @GetMapping("/selectPage")
-    public Result selectPage(@RequestParam(defaultValue = "1") Integer pageNum,
-                             @RequestParam(defaultValue = "6") Integer pageSize,
-                             Institution institution) {
-        PageInfo<Institution> pageInfo = listService.selectPage(pageNum, pageSize,institution);
-        return Result.success(pageInfo);
+    @GetMapping("/selectAll")
+    public List<Institution> selectAll(Institution institution) {
+        return listService.selectAll(institution);
     }
 
     @GetMapping("/search")

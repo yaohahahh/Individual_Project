@@ -3,9 +3,8 @@ package com.example.controller;
 import cn.hutool.core.util.ObjectUtil;
 import com.example.common.Result;
 import com.example.entity.Account;
-import com.example.entity.Admin;
 import com.example.service.AdminService;
-import com.example.service.StudentService;
+import com.example.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +27,7 @@ public class WebController {
     private AdminService adminService;
 
     @Resource
-    private StudentService studentService;
+    private UserService userService;
 
     /*登陆接口*/
     @PostMapping("/login")
@@ -36,8 +35,8 @@ public class WebController {
         Account dbAccount;
         if (account.getRole().equals("ADMIN")){
             dbAccount = adminService.login(account);
-        } else if (account.getRole().equals("STUDENT")){
-            dbAccount = studentService.login(account);
+        } else if (account.getRole().equals("USER")){
+            dbAccount = userService.login(account);
         } else {
             return Result.error(" Wrong Role!");
         }
@@ -54,8 +53,8 @@ public class WebController {
         if (account.getRole().equals("ADMIN")){
             adminService.register(account);
             return Result.success();
-        } else if (account.getRole().equals("STUDENT")) {
-            studentService.register(account);
+        } else if (account.getRole().equals("USER")) {
+            userService.register(account);
             return Result.success();
         } else {
             return Result.error(" Wrong Role!");

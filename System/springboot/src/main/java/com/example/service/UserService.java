@@ -2,21 +2,21 @@ package com.example.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.example.entity.Account;
-import com.example.entity.Student;
+import com.example.entity.User;
 import com.example.exception.CustomException;
-import com.example.mapper.StudentMapper;
+import com.example.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
 @Service
-public class StudentService {
+public class UserService {
     @Resource
-    private StudentMapper studentMapper;
+    private UserMapper userMapper;
 
     //login
     public Account login(Account account){
-        Account dbStudent =studentMapper.selectByUsername(account.getUsername());
+        Account dbStudent = userMapper.selectByUsername(account.getUsername());
         if(dbStudent ==null){ //Username doesn't exist.
             throw new CustomException("Wrong Username!");
         }
@@ -28,24 +28,24 @@ public class StudentService {
     }
 
     public void register(Account account) {
-        Student student = new Student();
-        student.setUsername(account.getUsername());
-        student.setPassword(account.getPassword());
-        student.setRole(account.getRole());
+        User user = new User();
+        user.setUsername(account.getUsername());
+        user.setPassword(account.getPassword());
+        user.setRole(account.getRole());
 
-        this.add(student);
+        this.add(user);
     }
 
-    private void add(Student student) {
-        Student dbStudent = studentMapper.selectByUsername(student.getUsername());
-        if(dbStudent !=null){
+    private void add(User user) {
+        User dbUser = userMapper.selectByUsername(user.getUsername());
+        if(dbUser !=null){
             throw new CustomException("Username Already Exist!");
         }
         //没填名字
-        if (ObjectUtil.isEmpty(student.getName())){
-            student.setName(student.getUsername());
+        if (ObjectUtil.isEmpty(user.getName())){
+            user.setName(user.getUsername());
         }
 
-        studentMapper.insert(student);
+        userMapper.insert(user);
     }
 }

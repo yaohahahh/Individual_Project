@@ -24,10 +24,10 @@
             prop="rating"
             width="100"
             :filters="[
-            { text: 'Gold', value: 'Gold' },
-            { text: 'Silver', value: 'Silver' },
-            { text: 'Bronze', value: 'Bronze' },
-            { text: 'Platinum', value: 'Platinum' }
+                { text: 'Platinum', value: 'Platinum' },
+                { text: 'Gold', value: 'Gold' },
+                { text: 'Silver', value: 'Silver' },
+                { text: 'Bronze', value: 'Bronze' }
           ]"
             :filter-method="filterTag"
             filter-placement="bottom-end"
@@ -52,17 +52,6 @@
       </el-table>
     </div>
 
-    <div class="pagination">
-      <el-pagination
-          background
-          layout="prev, pager, next"
-          :total="data.total"
-          @current-change="handleCurrentChange"
-          v-model:page-size="data.pageSize"
-          v-model:current-page="data.pageNum"
-      />
-    </div>
-
     <el-dialog
         title="Institution Information List"
         width="40%"
@@ -82,10 +71,10 @@
         </el-form-item>
         <el-form-item label="Rating" prop="rating">
           <el-select v-model="data.form.rating" placeholder="please select its rating">
+            <el-option label="Platinum" value="Platinum" />
             <el-option label="Gold" value="Gold" />
             <el-option label="Silver" value="Silver" />
             <el-option label="Bronze" value="Bronze" />
-            <el-option label="Platinum" value="Platinum" />
           </el-select>
         </el-form-item>
         <el-form-item label="STARS Link" prop="link">
@@ -100,7 +89,7 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="submitForm('dataForm')">Save</el-button>
+          <el-button type="primary" @click="submitForm">Save</el-button>
           <el-button @click="data.formVisible = false">Cancel</el-button>
         </span>
       </template>
@@ -123,10 +112,7 @@ const data = reactive({
   score: '',
   rating: '',
   link: '',
-  total: 0,
   tableData: [],
-  pageNum: 1,
-  pageSize: 6,
   formVisible: false,
   form: {}
 });
@@ -134,35 +120,29 @@ const data = reactive({
 // 表单验证规则
 const rules = {
   name: [{ required: true, message: 'Please input the name', trigger: 'blur' }],
-  fullName: [{ message: 'Please input the full name', trigger: 'blur' }],
-  score: [
-    { required: true, message: 'Please input the score', trigger: 'blur' },
-    { type: 'number', max: 100, message: 'Score must be less than or equal to 100', trigger: 'blur' }
-  ],
+  fullName: [{ required: true, message: 'Please input the full name', trigger: 'blur' }],
+  score: [{ required: true, message: 'Please input the score', trigger: 'blur' }],
   rating: [{ required: true, message: 'Please select a rating', trigger: 'change' }],
   link: [{ message: 'Please input the STARS link', trigger: 'blur' }]
 };
 
 // 搜索输入框的引用
 const searchQuery = ref('');
+// 表单的引用
+const dataForm = ref(null);
 
-// 加载数据
 const load = () => {
-  request.get('/list/selectPage', {
+  request.get('/list/selectAll', {
     params: {
-      pageNum: data.pageNum,
-      pageSize: data.pageSize,
       name: data.name
     }
   }).then(res => {
     console.log(res);
-    data.tableData = res.data?.list || [];
-    data.total = res.data?.total || 0;
+    data.tableData = res;
   }).catch(error => {
     console.error('Error loading data:', error);
   });
 };
-
 // 组件挂载时加载数据
 onMounted(load);
 
@@ -247,15 +227,17 @@ const getTagClass = (rating) => {
   }
 };
 
-const submitForm = (formName) => {
-  ref(formName).validate((valid) => {
-    if (valid) {
-      save(); // 保存数据
-    } else {
-      console.log('Validation failed');
-      return false;
-    }
-  });
+const submitForm = () => {
+  if (dataForm.value) {
+    dataForm.value.validate((valid) => {
+      if (valid) {
+        save(); // 保存数据
+      } else {
+        console.log('Validation failed');
+        return false;
+      }
+    });
+  }
 };
 
 // 判断是否是管理员
@@ -291,6 +273,8 @@ const isAdmin = computed(() => {
 .card {
   flex: 1;
   margin-bottom: 20px;
+  background-image: url("@/assets/imgs/theme-index-green.png");
+  background-size: contain;
 }
 
 .pagination {

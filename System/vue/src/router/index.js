@@ -10,8 +10,6 @@ const router = createRouter({
       redirect: '/home',
       children: [
         { path: 'home', name: 'Home', component: () => import('@/views/manager/Home.vue')},
-        { path: 'course', name: 'Course', component: () => import('@/views/manager/Course.vue')},
-        { path: 'student', name: 'Student', component: () => import('@/views/manager/Student.vue')},
         { path:'choose', name: 'choose', component: () => import('@/views/manager/choose.vue') },
         { path: 'comparison', name: 'comparison', component: () => import('@/views/manager/comparison.vue') },
         { path:'list', name: 'list', component: () => import('@/views/manager/list.vue') },

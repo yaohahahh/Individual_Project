@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" >
     <el-row class="demo-autocomplete" type="flex" justify="center" align="middle">
       <el-col :span="24" class="content">
         <div class="sub-title">Institutions Comparison ( Up to 3 )</div>
@@ -28,7 +28,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f5f5f5; /* 设置背景颜色，使其更美观 */
+  background-image: url("@/assets/imgs/theme-index-green.png");
+  background-size: contain;
 }
 
 .content {
