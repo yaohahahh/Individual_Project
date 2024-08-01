@@ -1,4 +1,4 @@
-## Higher Education Institution Sustainability Assessment Platform
+## University Sustainability Assessment Platform
 
 ### Table of Contents
 1. [Introduction](#introduction)
@@ -45,7 +45,7 @@ The Sustainability Assessment System is a comprehensive tool designed to help hi
 
 ### Usage
 1. **Access the Platform**
-   Open your web browser and go to http://localhost:5173.
+   Open your web browser and go to `http://localhost:5173.
 
 2. **Sign Up/Log In**
    Register as a new user or log in with your existing credentials.
@@ -56,16 +56,21 @@ The Sustainability Assessment System is a comprehensive tool designed to help hi
 	   username: 1
 	   password: 3
 
-3. **Collect and Manage Data**
-   When log in as an admin role, go to List page.
-   Using the `Add institution` button to input sustainability data for new institutions. 
-   Using `Edit and Delete` button in Operation list to manage existing sustainability data. 
-   
-4. **Analyze Data**
-   Using compare module, explore the data analysis and visualization tools to understand your university's sustainability performance.
+3. **Framework process**
+The process flowchart of the framework is illustrated. 
+<img width="908" alt="process" src="https://github.com/user-attachments/assets/2ced0229-16b7-4cc7-8b1b-bff5b6562f55">
 
-5. **Generate Reports**
-   Using report module, create and download detailed sustainability reports to share with stakeholders.
+Here's the step-by-step explanation.
+
+When the user enters the Higher Education Sustainability Assessment System, they are taken to the Dashboard which acts as the central hub. From the dashboard, the user has the option to go to the Home page (default), the Report module and the Comparison module.
+
+The Home page contains the welcome screen and login or registration options, as well as the ability to switch between other modules. After logging in, the administrator role can manage collected data, ensuring it's properly stored and organised. The sustainability data of the organisation is collected mainly from STARS (https://stars.aashe.org), and the management of this data is done mainly in the List and Report pages of the Report module.
+
+Selecting the Reporting module takes users first to the list page, where the administrator role manages basic information about the institution. The view also provides tools for searching and filtering organisations by various criteria. From the list given on this page, users can click on an organisation's name to access the report page to view the organisation's detailed sustainability data, which can be modified by the administrator. All users on the report page can click on the generate report button to access the generate page, which provides a detailed overview of the sustainability performance of the institution. On this page the user can generate detailed reports based on the visualised data. Finally, by clicking on the generate PDF button, the user can share the generated reports with stakeholders.
+
+In the Comparison module, the chooseb page is accessed first, allowing the user to dynamically select organisations to compare and view detailed reports. View performance metrics based on interactive and customisable tools such as radar charts and line graphs, and access detailed credit metrics via collapsed tables.
+
+At the back end of the system, there are also some preparation steps involved that are essential to the system. The process begins with the collection of data from a variety of sources, primarily the STARS system. This includes data relating to the environmental, social and economic performance of the institution. The collected data is stored in a central database called Sustainability Data. Administrators can manage this data through the previously mentioned pages. For the data to be better understood by the user, it needs to be categorised into different types and impact areas, and each category further classified into high, medium and low impact levels based on predefined criteria. Finally, the categorised data needs to be analysed to assess the sustainability performance of each university. This involved calculating scores and ratings based on various indicators.
 
 
 ### Contact
