@@ -80,4 +80,4 @@ For questions, suggestions, or feedback, please contact:
 
 ---
 
-Thank you for using the University Sustainability Assessment Platform! Together, we can make a difference in promoting sustainable practices in higher education institutions.
+Thank you for using the Sustainability Assessment System! Together, we can make a difference in promoting sustainable practices in higher education institutions.
