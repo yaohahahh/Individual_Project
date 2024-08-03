@@ -3,9 +3,10 @@
 ### Table of Contents
 1. [Introduction](#introduction)
 2. [Features](#features)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Contact](#contact)
+3. [Code Structure](#structure)
+4. [Installation](#installation)
+5. [Usage](#usage)
+6. [Contact](#contact)
 
 ---
 
@@ -17,6 +18,15 @@ The Sustainability Assessment System is a comprehensive tool designed to help hi
 - **Data Analysis and Visualization**: Rich interactive data visualization features, including various types of charts and graphs, allowing users to deeply analyze and understand sustainability data.
 - **User Roles and Permissions Management**: Designed with three user roles (guest, registered user, and admin), each with different levels of access and functionality.
 - **Report Generation and Sharing**: Users can generate detailed sustainability reports and share them with stakeholders. Reports include visual charts and analysis results to help universities identify strengths and weaknesses in their sustainability practices.
+
+### Structure
+The codebase for the Sustainability Assessment Platform is organized into several high-level directories, each corresponding to a major component of the system.
+
+- **Database**: Contains database schemas.
+- **Backend**: Using SpringBoot framework. Contains the server-side code, including APIs, data processing scripts, and database interaction logic.
+- **Frontend**: Using Vue.js framework. Contains all the code related to the user interface, including HTML, CSS, JavaScript, and React components.
+
+<img width="1467" alt="System File Structure" src="https://github.com/user-attachments/assets/c3c81494-8066-4c23-bdbb-6724e52dd645">
 
 
 ### Installation 
@@ -35,6 +45,7 @@ The Sustainability Assessment System is a comprehensive tool designed to help hi
    Create a `.env` file in the root directory and add the necessary environment variables:
    ```sh
    DATABASE_URL=jdbc:mysql://localhost:3306/Sustainability_Data
+   DATABASE_URL=jdbc:mysql://localhost:3306/Account
    driver-class-name= com.mysql.cj.jdbc.Driver  
    ```
 
