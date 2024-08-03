@@ -143,7 +143,7 @@ const data = reactive({
   tableData: [],
   categories: [] as any[],
   form: {},
-  formVisible: false // 不展示新增弹窗
+  formVisible: false
 });
 
 // Load data function
@@ -167,37 +167,36 @@ const navigateToGenerateReport = () => {
   router.push({ name: 'generate', params: { id } });
 };
 
-// 编辑表单
 const handleEdit = () => {
   data.formVisible = true;
-  // 将已有数据填充到表单中，并初始化 scores 对象
+  // Populate the form with existing data and initialise the scores object.
 };
 
 const validatePoint = (impact_area) => {
-  let inputValue = impact_area.point.trim(); // 去除首尾空格
+  let inputValue = impact_area.point.trim(); // Remove leading and trailing spaces
 
-  // 如果输入为空，则将 point 设置为 0
+  // If input is null, set point to 0.
   if (inputValue === '') {
     impact_area.point = 0;
     return;
   }
 
-  // 检查输入中是否存在小数点
+  // Check for the presence of a decimal point in the input
   const hasDecimalPoint = inputValue.includes('.');
 
-  // 先移除非数字和小数点以外的字符
+  // Remove characters other than non-numerals and decimal points first
   inputValue = inputValue.replace(/[^\d.]/g, '');
 
-  // 如果输入只包含小数点，或者小数点后面没有数字，则不进行 parseFloat
+  // If the input contains only a decimal point, or there is no number after the decimal point, parseFloat is not performed.
   if (inputValue === '.' || inputValue.endsWith('.')) {
     impact_area.point = inputValue;
     return;
   }
 
-  // 使用 parseFloat 解析输入的数字
+  // Use parseFloat to parse the input number.
   const parsedValue = parseFloat(inputValue);
 
-  // 如果无法解析为有效数字，则设置 point 为 0
+  // If it can't be parsed as a valid number, set point to 0.
   if (isNaN(parsedValue) || parsedValue < 0) {
     impact_area.point = 0;
   } else if (parsedValue > impact_area.total_point) {
@@ -208,13 +207,12 @@ const validatePoint = (impact_area) => {
   }
 };
 
-// 保存数据到后台
 const save = () => {
-  // 提交更新后的数据
+  // Submit updated data
   request.put(`/list/updatePoint`, data)
       .then(res => {
-        load(); // 重新获取数据
-        data.formVisible = false; // 关闭弹窗
+        load();
+        data.formVisible = false;
         ElMessage.success("Save Successfully!");
       }).catch(error => {
     ElMessage.error("Save Failed!");
@@ -277,7 +275,7 @@ const getImpactAreaList = (impactAreaName: string) => {
   }
 };
 
-// 判断是否是管理员
+// Determine if you are an administrator
 const isAdmin = computed(() => {
   const user = JSON.parse(localStorage.getItem('user'));
   return user && user.role === 'ADMIN';

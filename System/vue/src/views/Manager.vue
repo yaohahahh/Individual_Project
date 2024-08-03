@@ -81,13 +81,13 @@ const logout = () => {
   position: absolute;
   top: 0;
   right: 0;
-  width: 300px; /* 设置菜单栏的宽度 */
-  height: 60px; /* 设置菜单栏的高度 */
+  width: 300px;
+  height: 60px;
   display: flex;
-  justify-content: flex-end; /* 让菜单右对齐 */
-  align-items: center; /* 垂直居中对齐 */
-  background-color: #f0f0f0; /* 设置菜单栏的背景颜色 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 可选：添加阴影效果 */
-  z-index: 1000; /* 设置一个较高的 z-index 以确保菜单显示在其他内容之上 */
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 </style>

@@ -24,7 +24,6 @@
       </el-descriptions>
     </div>
 
-    <!-- 新添加的Society类型小卡片 -->
     <el-row :gutter="10">
       <el-col :span="8" v-for="type in reportDimensions" :key="type.name">
         <el-card class="radar-card">
@@ -40,23 +39,12 @@
               <span>{{ countImpactAreas(type, 'low') }}</span>
             </div>
           </div>
-
-<!--          <template #footer>
-            <el-button type="text" @click="navigateToHighestScoreReport(type.name)">
-              Go to highest score report
-              <h4>Highest Score in {{ type.name }}</h4>
-              <p>View report of institution with highest score</p>
-              <p> v-if="isHighestScoreInstitution(type)"本机构做得最好</p>
-            </el-button>
-          </template>-->
         </el-card>
       </el-col>
     </el-row>
 
     <div v-for="type in reportDimensions" :key="type.name" class="report-section">
       <h3>{{ type.name }}</h3>
-
-
       <el-row :gutter="20">
         <el-col v-for="level in ['high', 'medium', 'low']" :key="level">
           <el-card>
@@ -189,7 +177,6 @@ const generateReport = () => {
         data.score = res.data?.score;
         data.categories = res.data?.categories;
 
-        // 分类生成报告
         reportDimensions.value.forEach(dimension => {
           dimension.high = [];
           dimension.medium = [];
@@ -253,17 +240,6 @@ const countImpactAreas = (type, level) => {
   return type[level].length;
 };
 
-/*
-const navigateToHighestScoreReport = (dimensionName) => {
-  const category = data.categories.find(category => category.type === dimensionName);
-  if (category) {
-    const highestScoreInstitution = category.impact_areas.reduce((prev, current) => (prev.point > current.point) ? prev : current);
-    if (highestScoreInstitution) {
-      router.push(`/institution/report/${highestScoreInstitution.institutionId}`);
-    }
-  }
-};*/
-
 generateReport();
 
 const goBack = () => {
@@ -276,7 +252,7 @@ const downloadPDF = () => {
     html2canvas(reportElement).then(canvas => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF();
-      pdf.addImage(imgData, 'PNG', 10, 10, 180, 160); // 调整尺寸和位置以适应PDF页面
+      pdf.addImage(imgData, 'PNG', 10, 10, 180, 160);
       pdf.save('Sustainability_Report.pdf');
     }).catch(error => {
       console.error('Error generating PDF:', error);

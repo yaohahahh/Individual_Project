@@ -34,22 +34,22 @@
 
 .content {
   width: 100%;
-  max-width: 1800px; /* 增加宽度 */
-  padding: 60px; /* 增加内边距 */
+  max-width: 1800px;
+  padding: 60px;
   background: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px; /* 添加圆角 */
+  border-radius: 8px;
   text-align: center;
 }
 
 .sub-title {
-  font-size: 24px; /* 增加字体大小 */
-  margin-bottom: 30px; /* 增加底部外边距 */
+  font-size: 24px;
+  margin-bottom: 30px;
   font-weight: bold;
 }
 
 .input-wrapper {
-  margin-bottom: 20px; /* 增加底部外边距 */
+  margin-bottom: 20px;
 }
 
 .inline-input {
@@ -58,28 +58,25 @@
 
 .button-group {
   display: flex;
-  justify-content: center; /* 将按钮组居中 */
-  gap: 20px; /* 增加按钮之间的间距 */
-  margin-top: 30px; /* 增加顶部外边距 */
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
 }
 
 .action-button {
-  font-size: 16px; /* 增加按钮的字体大小 */
-  padding: 12px 24px; /* 增加按钮的内边距 */
-  border-radius: 5px; /* 添加圆角 */
-  color: #fff; /* 按钮文本颜色 */
-  border: none; /* 移除按钮边框 */
+  font-size: 16px;
+  padding: 12px 24px;
+  border-radius: 5px;
+  color: #fff;
+  border: none;
 }
 
-
 </style>
-
-
 
 <script>
 import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import request from '@/utils/request'; // 确保导入你的请求工具
+import request from '@/utils/request';
 
 export default {
   setup() {
@@ -137,7 +134,7 @@ export default {
           query: {ids: selectedIds.join(',')}
         });
       } else {
-        alert('请至少选择一个 institution');
+        alert('Please select at least one institution');
       }
     };
 

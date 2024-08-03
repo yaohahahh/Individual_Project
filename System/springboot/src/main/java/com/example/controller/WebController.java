@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class WebController {
 
     /**
-     * 默认请求接口
+     * default request interface
      */
     @GetMapping("/")
     public Result hello() {
@@ -29,7 +29,7 @@ public class WebController {
     @Resource
     private UserService userService;
 
-    /*登陆接口*/
+    /*log in*/
     @PostMapping("/login")
     public Result login(@RequestBody Account account) {
         Account dbAccount;
@@ -43,13 +43,12 @@ public class WebController {
         return Result.success(dbAccount);
     }
 
-    /*register接口*/
+    /*register*/
     @PostMapping("/register")
     public Result register(@RequestBody Account account) {
         if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())){
             return Result.error("Must fill Username and Password!");
         }
-
         if (account.getRole().equals("ADMIN")){
             adminService.register(account);
             return Result.success();

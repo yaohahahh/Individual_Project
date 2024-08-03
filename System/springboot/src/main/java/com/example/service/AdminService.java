@@ -41,12 +41,10 @@ public class AdminService {
         if(dbAdmin!=null){
             throw new CustomException("Username Already Exist!");
         }
-        //没填名字
+        //No name.
         if (ObjectUtil.isEmpty(admin.getName())){
             admin.setName(admin.getUsername());
         }
-
         adminMapper.insert(admin);
     }
-
 }

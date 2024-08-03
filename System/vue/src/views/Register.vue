@@ -38,7 +38,6 @@
     }
   })
 
-  //输入校验
   const rules = reactive({
     username:[
       { required: true, message: 'Please enter Username', trigger: 'blur' },
@@ -48,7 +47,6 @@
     ],
   })
 
-  //表单校验
   const formRef = ref()
 
   const register = () => {
@@ -66,12 +64,7 @@
         })
       }
     })
-
   }
-
-
-
-
 </script>
 
 <style scoped>

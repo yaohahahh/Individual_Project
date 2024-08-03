@@ -107,7 +107,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import request from '@/utils/request'; // 确保导入你的请求工具
+import request from '@/utils/request';
 import * as echarts from "echarts";
 import {
   BGList,
@@ -171,7 +171,7 @@ export default {
     const calculateCategoryScores = (categories) => {
       return categories.map(category => {
         const totalPoints = category.impact_areas.reduce((sum, area) => sum + area.point, 0);
-        return Number(totalPoints.toPrecision(10)); // 确保精度
+        return Number(totalPoints.toPrecision(10));
       });
     };
 

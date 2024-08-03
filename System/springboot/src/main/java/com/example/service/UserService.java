@@ -41,7 +41,7 @@ public class UserService {
         if(dbUser !=null){
             throw new CustomException("Username Already Exist!");
         }
-        //没填名字
+        //No name.
         if (ObjectUtil.isEmpty(user.getName())){
             user.setName(user.getUsername());
         }

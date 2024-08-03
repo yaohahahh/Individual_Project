@@ -41,10 +41,8 @@
 </template>
 
 <script setup>
-import request from "@/utils/request";
 import { useRouter } from 'vue-router';
 import {computed, reactive} from "vue";
-import {Check} from "@element-plus/icons-vue";
 
 const user = JSON.parse(localStorage.getItem('user') || '{}');
 const router = useRouter();

@@ -18,11 +18,6 @@ public class ListService {
     @Resource
     private ListMapper listMapper;
 
-    public List<Institution> selectAll(Institution institution){
-        return listMapper.selectAll(institution);
-    }
-
-    //新增数据
     public void add(Institution institution) {
         listMapper.insert(institution);
     }
@@ -46,6 +41,10 @@ public class ListService {
         }
         listMapper.deleteCategory(id);
         listMapper.deleteById(id);
+    }
+
+    public List<Institution> selectAll(Institution institution){
+        return listMapper.selectAll(institution);
     }
 
     public List<Institution> searchInstitutions(String query) {

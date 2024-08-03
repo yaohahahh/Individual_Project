@@ -43,7 +43,7 @@ public interface ListMapper {
     @Update("update Sustainability_Data.Impact_Area set point=#{point} where id=#{id}")
     void updateImpactAreaPoint(@Param("id") Integer id, @Param("point") Float point);
 
-    //先删除impact再删category,最后删institution
+    //First delete impact then delete category, and finally delete institution.
     @Delete("delete from Sustainability_Data.Impact_Area where category_id = #{id}")
     void deleteImpactArea(Integer id);
     @Delete("delete from Sustainability_Data.Category where institution_id = #{id}")

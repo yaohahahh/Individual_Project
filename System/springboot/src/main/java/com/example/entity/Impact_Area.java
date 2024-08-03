@@ -1,15 +1,12 @@
 package com.example.entity;
 
-import java.util.List;
-
 public class Impact_Area {
     private Integer id;
     private String name;
     private Float point;
     private Float total_point;
+
     // Getters and Setters
-
-
     public Float getTotal_point() {
         return total_point;
     }
@@ -25,7 +22,6 @@ public class Impact_Area {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
     public Float getPoint() {
         return point;

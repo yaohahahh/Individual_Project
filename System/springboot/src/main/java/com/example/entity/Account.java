@@ -1,13 +1,11 @@
 package com.example.entity;
 
-// Admin和Student的父类
-
 public class Account {
     private Integer id;
     private String username;
     private String password;
     private String name;
-    private String role; //用于区分admin和student
+    private String role; //Used to distinguish between admin and student.
 
     public String getRole() {
         return role;
