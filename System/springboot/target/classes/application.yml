@@ -1,7 +1,6 @@
 server:
   port: 9090
 
-# 数据库配置
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -13,7 +12,6 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
 
-# 配置mybatis实体和xml映射
 mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
